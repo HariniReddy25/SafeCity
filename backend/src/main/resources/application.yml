@@ -1,0 +1,47 @@
+server:
+  port: ${PORT:8080}
+  error:
+    include-message: always
+    include-binding-errors: always
+
+spring:
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:h2}
+  application:
+    name: safecity-backend
+
+  datasource:
+    url: ${DB_URL:jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME:safecity_db}?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC}
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:root}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      initialization-fail-timeout: 0
+      minimum-idle: 1
+      maximum-pool-size: 10
+      connection-timeout: 3000
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+        format_sql: true
+
+# JWT and Security Settings
+app:
+  jwt:
+    secret: ${JWT_SECRET:SafeCitySecretKeyForJWTAuthentication2026SuperSecureBase64EncodedKey!}
+    expiration-ms: ${JWT_EXPIRATION_MS:86400000} # 24 hours
+  cors:
+    allowed-origins: ${ALLOWED_ORIGINS:http://localhost:5173,http://localhost:3000}
+
+# AI Assistant Settings (Phase 6)
+ai:
+  api:
+    key: ${AI_API_KEY:}
+    url: ${AI_API_URL:https://api.openai.com/v1/chat/completions}
+    model: ${AI_API_MODEL:gpt-3.5-turbo}
+
